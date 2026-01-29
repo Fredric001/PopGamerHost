@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Site Deployer - For Learners</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Instant Deploy</h1>
+            <p class="subtitle">Turn your code into a live website in seconds. No account needed.</p>
+        </header>
+
+        <!-- Main Deployment Form -->
+        <div class="card" id="deployCard">
+            <form id="deployForm">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Paste your code
+                </div>
+
+
+
+                <div class="grid-layout">
+                    <!-- HTML Input -->
+                    <div class="input-group">
+                        <label class="input-label" for="htmlInput">HTML</label>
+                        <p class="helper-text">The structure of your page goes here.</p>
+                        <textarea id="htmlInput" placeholder="<!-- Example -->
+<h1>Hello World!</h1>
+<p>This is my first website.</p>" required></textarea>
+                    </div>
+
+                    <!-- CSS Input -->
+                    <div class="input-group">
+                        <label class="input-label" for="cssInput">CSS (Optional)</label>
+                        <p class="helper-text">Style your page with colors and fonts.</p>
+                        <textarea id="cssInput" placeholder="/* Example */
+body {
+  background-color: lightblue;
+  font-family: sans-serif;
+}"></textarea>
+                    </div>
+
+                    <!-- JS Input -->
+                    <div class="input-group">
+                        <label class="input-label" for="jsInput">JavaScript (Optional)</label>
+                        <p class="helper-text">Add interactivity and logic.</p>
+                        <textarea id="jsInput" placeholder="// Example
+console.log('My site is live!');
+alert('Welcome!');"></textarea>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <div class="step-title" style="justify-content: center;">
+                        <span class="step-number">2</span>
+                        Ready to go live?
+                    </div>
+
+                    <!-- Student Name Input -->
+                    <div class="input-group"
+                        style="margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; text-align: left;">
+                        <label class="input-label" for="studentName">Your name (optional)</label>
+                        <p class="helper-text">This will appear in your site link: <span id="urlPreview"
+                                style="color: var(--secondary-color); font-weight: bold;">/sites/guest-xxxxx</span></p>
+                        <input type="text" id="studentName" placeholder="e.g. John" maxlength="20"
+                            style="padding: 12px; border: 2px solid #E0E7FF; border-radius: 8px; font-size: 16px; width: 100%;">
+                    </div>
+
+                    <button type="submit" id="deployBtn" class="deploy-btn">
+                        🚀 Deploy my website
+                    </button>
+                    <div id="statusMessage" class="message"></div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Success State (Hidden by default) -->
+        <div id="successCard" class="card success-card">
+            <div class="success-icon">🎉</div>
+            <h2 class="success-title">You're Live!</h2>
+            <p>Your code has been successfully combined and deployed.</p>
+
+            <a href="#" id="liveLink" class="live-link" target="_blank">Open My Website</a>
+
+            <!-- WhatsApp Share Section -->
+            <!-- Share Suite Section -->
+            <div class="share-container">
+                <h3>Share your site</h3>
+
+                <!-- 1. Copy Link -->
+                <div class="share-input-group">
+                    <input type="text" id="shareUrlInput" readonly placeholder="https://..."
+                        aria-label="Deployment URL">
+                    <button id="copyBtn" aria-label="Copy link to clipboard">Copy link 📋</button>
+                </div>
+
+                <!-- 2. Actions (Open & Download) -->
+                <div class="action-buttons">
+                    <a href="#" id="openSiteBtn" class="secondary-btn" target="_blank">Open site 🌐</a>
+                    <button id="downloadBtn" class="secondary-btn">Download link 📄</button>
+                </div>
+
+                <!-- 3. QR Code -->
+                <div class="qr-section">
+                    <p class="section-label">Scan to open on phone</p>
+                    <img id="qrCodeImg" alt="QR Code" src="" style="display: none;">
+                </div>
+
+                <!-- 4. SMS Share -->
+                <div class="sms-section">
+                    <label for="smsNumber" class="input-label" style="font-size: 0.9rem;">Send link via SMS
+                        (optional)</label>
+                    <div class="sms-input-group">
+                        <input type="tel" id="smsNumber" placeholder="Phone number">
+                        <button id="smsBtn" class="sms-btn">Send via SMS</button>
+                    </div>
+                    <p class="helper-text">Opens your phone’s messaging app</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button onclick="location.reload()"
+                    style="background:none; border:none; color: #1A535C; text-decoration: underline; cursor: pointer;">Deploy
+                    another site</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

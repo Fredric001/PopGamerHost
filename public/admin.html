@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Instant Deploy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Dashboard Specific Styles */
+        body {
+            padding: 0;
+            display: flex;
+            background-color: #f7fff7;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: white;
+            height: 100vh;
+            border-right: 1px solid #e5e7eb;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 700;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 16px 24px;
+            color: #4b5563;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: #f3f4f6;
+            color: var(--primary-color);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Stat Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #def7ec;
+            color: #03543f;
+        }
+
+        .status-failed {
+            background: #fde8e8;
+            color: #9b1c1c;
+        }
+
+        /* Loader */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <i data-lucide="layout-dashboard"></i>
+            AdminPanel
+        </div>
+        <div class="nav-item active" onclick="switchTab('overview')">
+            <i data-lucide="pie-chart"></i> Overview
+        </div>
+        <div class="nav-item" onclick="switchTab('uploads')">
+            <i data-lucide="upload-cloud"></i> Uploads
+        </div>
+        <div class="nav-item" onclick="switchTab('logs')">
+            <i data-lucide="alert-circle"></i> System Logs
+        </div>
+        <div class="nav-item" onclick="switchTab('settings')">
+            <i data-lucide="settings"></i> Settings
+        </div>
+
+        <div style="margin-top: auto; padding: 20px;">
+            <a href="/" style="text-decoration: none; color: #6b7280; font-size: 0.9rem; display: flex; gap: 8px;">
+                <i data-lucide="arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Overview Tab -->
+        <section id="overview" class="page-section active">
+            <h1>System Overview</h1>
+            <p class="subtitle" style="margin-bottom: 30px;">Real-time platform metrics.</p>
+
+            <div id="overview-content">
+                <div class="loading">Loading stats...</div>
+            </div>
+        </section>
+
+        <!-- Uploads Tab -->
+        <section id="uploads" class="page-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h1>Recent Uploads</h1>
+                <button onclick="loadUploads()" class="deploy-btn"
+                    style="font-size: 0.9rem; padding: 10px 20px;">Refresh</button>
+            </div>
+            <div id="uploads-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Time</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody id="uploads-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Logs Tab -->
+        <section id="logs" class="page-section">
+            <h1>System Logs</h1>
+            <p class="subtitle" style="margin-bottom: 30px;">Recent errors and events.</p>
+            <div id="logs-content"
+                style="background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 8px; font-family: monospace; height: 500px; overflow-y: auto;">
+                Loading logs...
+            </div>
+        </section>
+
+        <!-- Settings Tab -->
+        <section id="settings" class="page-section">
+            <h1>Admin Settings</h1>
+            <div class="card" style="margin-top: 30px; max-width: 600px;">
+                <div class="input-group"
+                    style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div>
+                        <label class="input-label" style="margin: 0;">Maintenance Mode</label>
+                        <p class="helper-text" style="margin: 0;">Disable all uploads.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="maintenance-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <button onclick="saveSettings()" class="deploy-btn" style="width: 100%;">Save Changes</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="admin.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
