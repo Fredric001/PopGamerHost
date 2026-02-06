@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError();
 
         try {
-            const response = await fetch('/deploy', {
+            const response = await fetch('https://popgamerhost.onrender.com/deploy', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

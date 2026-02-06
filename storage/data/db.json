@@ -1,0 +1,14 @@
+{
+  "uploads": [],
+  "logs": [],
+  "stats": {
+    "totalUploads": 0,
+    "successfulDeployments": 0,
+    "failedDeployments": 0,
+    "totalStorageUsed": 0
+  },
+  "settings": {
+    "maintenanceMode": false,
+    "uploadsEnabled": true
+  }
+}

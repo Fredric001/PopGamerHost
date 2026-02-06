@@ -1,4 +1,4 @@
-const API_BASE = '/api/admin';
+const API_BASE = 'https://popgamerhost.onrender.com/api/admin';
 
 // State
 let currentTab = 'overview';
